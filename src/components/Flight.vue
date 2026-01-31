@@ -1,16 +1,13 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import { useRouteStore } from '@/stores/routeStore';
+import { useRouteStore } from '@/stores/routeStore'
 
 const routeStore = useRouteStore()
 const router = useRouter()
-
-
-
 </script>
 
 <template>
-<div
+  <div
     dir="rtl"
     class="absolute h-full w-full top-0 bg-[url('https://images.pexels.com/photos/33676838/pexels-photo-33676838.jpeg?_gl=1*v42hm5*_ga*MTY2MTgzMTMyMi4xNzY4MTI3MTE4*_ga_8JE65Q40S6*czE3NjkzNjQ4NzEkbzUkZzEkdDE3NjkzNjQ4ODckajQ0JGwwJGgw')] bg-cover bg-center"
   >
@@ -21,6 +18,6 @@ const router = useRouter()
     </div>
   </div>
   <div class="absolute bottom-4 right-4 flex justify-between">
-    <h1 class="text-xl text-button-600 cursor-default">Celestia airways | Ramon Karolan </h1>
+    <h1 class="text-xl text-button-600 cursor-default">Celestia airways | Ramon Karolan</h1>
   </div>
 </template>

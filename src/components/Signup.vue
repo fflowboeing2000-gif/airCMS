@@ -3,7 +3,7 @@
 <template>
   <div
     dir="rtl"
-    class="absolute h-full w-full top-0 bg-[url('https://imagine-public.x.ai/imagine-public/images/d932199c-dc1e-4eda-acd9-5f290f753e26.jpg')] bg-cover bg-center"
+    class="absolute h-full w-full top-0 bg-[url('https://images.unsplash.com/photo-1656589368115-dabd3d89922d?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=alpridephoto-y59QoMGFgsA-unsplash.jpg')] bg-cover bg-center"
   >
     <div class="absolute h-full w-full top-0 bg-overflow-200"></div>
     <div dir="ltr" class="absolute right-0 h-full bg-white p-10 w-150 rounded-s-lg">
@@ -28,6 +28,12 @@
     </div>
   </div>
   <div class="absolute bottom-4 right-4 flex justify-between">
-    <h1 class="text-xl text-button-600 cursor-default">Celestia airways</h1>
+    <h1 class="text-xl text-button-600 cursor-default">
+      NEX Air |
+      <a
+        href="https://unsplash.com/photos/a-small-airplane-flying-in-the-sky-y59QoMGFgsA?utm_source=unsplash&utm_medium=referral&utm_content=creditShareLink"
+        >Андрей Сизов</a
+      >
+    </h1>
   </div>
 </template>

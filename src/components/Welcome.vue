@@ -5,11 +5,11 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 // Discord logo hover animation
-const defaultFill = '#A3B18A'
+const defaultFill = '#D4E2FF'
 const defaultStroke = 'none'
 const hoverFill = 'none'
-const hoverStroke = '#A3B18A'
-const currentFill = ref('#A3B18A')
+const hoverStroke = '#D4E2FF'
+const currentFill = ref('#D4E2FF')
 const currentStroke = ref('none')
 
 function hoverIn() {
@@ -23,17 +23,17 @@ function hoverOut() {
 </script>
 
 <template>
-  <div class="flex justify-between my-4 mx-4">
-    <h1 class="text-2xl text-button-600 cursor-default">Celestia airways</h1>
+  <div class="flex items-center justify-between my-4 mx-4">
+    <img src="../../public/Logo.svg" alt="NEX Air" class="h-16" />
     <div class="flex justify-between">
       <button
-        class="cursor-pointer hover:bg-text w-20 py-1.25 mx-2 bg-button-600 text-white rounded-sm"
+        class="h-8 cursor-pointer hover:bg-text w-20 py-1.25 mx-2 bg-button-600 text-white rounded-sm"
         @click="router.push('/signup')"
       >
         Join us
       </button>
       <button
-        class="cursor-pointer hover:bg-transparent hover:border-button-300 hover:border box-border w-20 mx-2 bg-button-300 rounded-sm"
+        class="h-8 cursor-pointer hover:bg-transparent hover:border-button-300 hover:border box-border w-20 mx-2 bg-button-300 rounded-sm"
         @click="router.push('/login')"
       >
         Log in
