@@ -1,4 +1,25 @@
-<script lang="ts"></script>
+<script setup lang="ts">
+import { supabase } from '@/utilities/supabase'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const login = ref('')
+const password = ref('')
+
+async function newUser() {
+  if (login.value.trim() != '' && password.value.trim() != '') {
+    await supabase.from('users').insert({ discord_name: login.value, password: password.value })
+
+    localStorage.removeItem('user')
+    localStorage.setItem('user', JSON.stringify({ password: password.value, login: login.value }))
+    router.push('/dashboard')
+  } else {
+    alert('Invalid password or login.')
+  }
+}
+</script>
 
 <template>
   <div
@@ -13,15 +34,18 @@
         class="focus:border-button-600 focus:outline-none py-1 px-2 w-full border-2 rounded-sm border-button-300"
         type="text"
         placeholder="Enter your Discord username"
+        v-model="login"
       />
       <p class="text-text mt-5">Create password</p>
       <input
         class="focus:border-button-600 focus:outline-none py-1 px-2 w-full border-2 rounded-sm border-button-300"
         type="password"
         placeholder="Enter your password"
+        v-model="password"
       />
       <button
         class="cursor-pointer hover:bg-text text-white mt-5 text-center w-full bg-button-600 rounded-sm py-2"
+        @click="newUser"
       >
         Sign up
       </button>

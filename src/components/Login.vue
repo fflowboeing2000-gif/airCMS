@@ -1,15 +1,49 @@
-<script setup lang="ts">
-import { onMounted } from 'vue'
+<script setup lang="js">
+import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { usePilotStore } from '@/stores/pilotStore'
+import { supabase } from '@/utilities/supabase'
 
 const pilotStore = usePilotStore()
 const router = useRouter()
 
-function debug() {
-  pilotStore.pilotName = 'bpilot7991'
-  pilotStore.balance = 100
-  router.push('/dashboard')
+const login = ref('')
+const password = ref('')
+
+onMounted(async () => {
+  if (localStorage.getItem('user') != null) {
+    const { login, password } = JSON.parse(localStorage.getItem('user'))
+    const { data } = await supabase
+      .from('users')
+      .select('discord_name, balance')
+      .eq('discord_name', login)
+      .eq('password', password)
+
+    if (data != null) {
+      if (data[0] != undefined) {
+        pilotStore.pilotName = data[0].discord_name
+        pilotStore.balance = data[0].balance
+        router.push('/dashboard')
+      }
+    }
+  }
+})
+
+async function getUser() {
+  const { data } = await supabase
+    .from('users')
+    .select('discord_name, balance')
+    .eq('discord_name', login.value)
+    .eq('password', password.value)
+
+  if (data != null) {
+    if (data[0] != undefined) {
+      pilotStore.pilotName = data[0].discord_name
+      pilotStore.balance = data[0].balance
+      router.push('/dashboard')
+      localStorage.setItem('user', JSON.stringify({ password: password.value, login: login.value }))
+    }
+  }
 }
 </script>
 
@@ -26,22 +60,25 @@ function debug() {
         class="focus:border-button-600 focus:outline-none py-1 px-2 w-full border-2 rounded-sm border-button-300"
         type="text"
         placeholder="Enter your Discord username"
+        v-model="login"
       />
       <p class="text-text mt-5">Password</p>
       <input
         class="focus:border-button-600 focus:outline-none py-1 px-2 w-full border-2 rounded-sm border-button-300"
         type="password"
         placeholder="Enter your password"
+        v-model="password"
       />
       <button
         class="cursor-pointer hover:bg-text text-white mt-5 text-center w-full bg-button-600 rounded-sm py-2"
-        @click="debug"
+        @click="getUser"
       >
         Sign in
       </button>
       <p class="text-text m-0 mt-5 mb-2 text-center w-full">Don't have an account?</p>
       <button
         class="cursor-pointer hover:bg-transparent hover:border-button-300 hover:border box-border py-2 w-full bg-button-300 rounded-sm"
+        @click="router.push('/signup')"
       >
         Become a member
       </button>
