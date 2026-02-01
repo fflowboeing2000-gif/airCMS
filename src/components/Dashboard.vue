@@ -1,4 +1,4 @@
-<script setup lang="js">
+<script setup lang="ts">
 import { usePilotStore } from '@/stores/pilotStore'
 import { useRouteStore } from '@/stores/routeStore'
 import { supabase } from '@/utilities/supabase'
@@ -8,25 +8,28 @@ import { getGreetingMessage } from '@/utilities/greetingMessage'
 
 const pilotStore = usePilotStore()
 const routeStore = useRouteStore()
-const routes = ref([])
+const routes: any = ref([])
 const router = useRouter()
 
 onMounted(async () => {
   if (localStorage.getItem('user') == null) {
     router.push('/login')
   } else {
-    const { login, password } = await JSON.parse(localStorage.getItem('user'))
+    const a = localStorage.getItem('user')
+    if (a != null) {
+      const { login, password } = await JSON.parse(a)
 
-    const { data } = await supabase
-      .from('users')
-      .select('discord_name, balance')
-      .eq('discord_name', login)
-      .eq('password', password)
+      const { data } = await supabase
+        .from('users')
+        .select('discord_name, balance')
+        .eq('discord_name', login)
+        .eq('password', password)
 
-    if (data != null) {
-      if (data[0] != undefined) {
-        pilotStore.pilotName = data[0].discord_name
-        pilotStore.balance = data[0].balance
+      if (data != null) {
+        if (data[0] != undefined) {
+          pilotStore.pilotName = data[0].discord_name
+          pilotStore.balance = data[0].balance
+        }
       }
     }
   }
@@ -38,7 +41,7 @@ function logout() {
   router.push('/')
 }
 
-function setRoute(route) {
+function setRoute(route: any) {
   routeStore.setRoute(route)
   router.push('/flight')
 }

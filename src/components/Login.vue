@@ -1,4 +1,4 @@
-<script setup lang="js">
+<script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { usePilotStore } from '@/stores/pilotStore'
@@ -11,8 +11,9 @@ const login = ref('')
 const password = ref('')
 
 onMounted(async () => {
-  if (localStorage.getItem('user') != null) {
-    const { login, password } = JSON.parse(localStorage.getItem('user'))
+  const a = localStorage.getItem('user')
+  if (a != null) {
+    const { login, password } = JSON.parse(a)
     const { data } = await supabase
       .from('users')
       .select('discord_name, balance')
