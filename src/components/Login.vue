@@ -83,6 +83,13 @@ async function getUser() {
       >
         Become a member
       </button>
+      <p class="text-text m-0 mt-5 mb-2 text-center w-full hidden">Now you can</p>
+      <button
+        class=" hidden flex justify-center gap-3 cursor-pointer  box-border py-2 w-full bg-[#5865F2] text-white rounded-sm"
+        @click="router.push('/signup')"
+      >
+        Sign in with <img width="120" src="https://cdn.prod.website-files.com/6257adef93867e50d84d30e2/66e3d718355f9c89eb0fd350_Logo.svg" alt="">
+      </button>
     </div>
   </div>
   <div class="absolute bottom-4 right-4 flex justify-between">

@@ -2,10 +2,22 @@
 import { useRouter } from 'vue-router'
 import { useRouteStore } from '@/stores/routeStore'
 import { usePilotStore } from '@/stores/pilotStore'
+import { supabase } from '@/utilities/supabase'
 
 const routeStore = useRouteStore()
 const pilotStore = usePilotStore()
 const router = useRouter()
+
+async function registerFlight() {
+  const some = supabase.functions.invoke('registerFlight', {
+    body: {
+      flightId: routeStore.id,
+      name: pilotStore.pilotName,
+    }
+  })
+  router.push('/dashboard')
+  
+}
 </script>
 
 <template>
@@ -36,7 +48,8 @@ const router = useRouter()
       </p>
       <button
         class="cursor-pointer hover:bg-text text-white mt-5 text-center w-full bg-button-600 rounded-sm py-2"
-      >
+        @click="registerFlight"
+        >
         Start flight
       </button>
       <button

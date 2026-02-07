@@ -9,6 +9,7 @@ import { getGreetingMessage } from '@/utilities/greetingMessage'
 const pilotStore = usePilotStore()
 const routeStore = useRouteStore()
 const routes: any = ref([])
+const activeRoutes = ref({})
 const router = useRouter()
 
 onMounted(async () => {
@@ -51,7 +52,7 @@ function setRoute(route: any) {
   <div class="my-4 mx-4 flex items-center justify-between mb-8">
     <h1 class="text-2xl text-button-600 cursor-default">NEX Air | Dashboard</h1>
     <button
-      class="h-8 cursor-pointer hover:bg-text w-20 py-1.25 mx-2 bg-button-600 text-white rounded-sm"
+      class="h-8 cursor-pointer hover:bg-red-400 hover:border-red-400 hover:text-white hover:border box-border w-20 mx-2 bg-transparent rounded-sm"
       @click="logout"
     >
       Log out
@@ -89,8 +90,8 @@ function setRoute(route: any) {
             </div>
             <div
               @click="setRoute(flight)"
-              :key="flight.number"
-              class="hover:bg-gray-200 px-2 flex justify-between py-2 border-gray-300 border-t-2"
+              :key="flight.id"
+              class="hover:bg-gray-200 cursor-pointer px-2 flex justify-between py-2 border-gray-300 border-t-2"
               v-for="flight in routes"
             >
               <p>{{ flight.from }}</p>
@@ -99,7 +100,7 @@ function setRoute(route: any) {
             </div>
           </div>
         </div>
-        <div class="row-span-2"><p>Active flights</p></div>
+        <div class="row-span-2"><p>Active flight</p></div>
         <div class="empty"></div>
         <div class=""><p>History</p></div>
       </div>
