@@ -1,50 +1,19 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { usePilotStore } from '@/stores/pilotStore'
 import { supabase } from '@/utilities/supabase'
 
-const pilotStore = usePilotStore()
 const router = useRouter()
 
-const login = ref('')
-const password = ref('')
+onMounted(async () => {})
 
-onMounted(async () => {
-  const a = localStorage.getItem('user')
-  if (a != null) {
-    const { login, password } = JSON.parse(a)
-    const { data } = await supabase
-      .from('users')
-      .select('discord_name, balance')
-      .eq('discord_name', login)
-      .eq('password', password)
-
-    if (data != null) {
-      if (data[0] != undefined) {
-        pilotStore.pilotName = data[0].discord_name
-        pilotStore.balance = data[0].balance
-        router.push('/dashboard')
-      }
-    }
-  }
-})
-
-async function getUser() {
-  const { data } = await supabase
-    .from('users')
-    .select('discord_name, balance')
-    .eq('discord_name', login.value)
-    .eq('password', password.value)
-
-  if (data != null) {
-    if (data[0] != undefined) {
-      pilotStore.pilotName = data[0].discord_name
-      pilotStore.balance = data[0].balance
-      router.push('/dashboard')
-      localStorage.setItem('user', JSON.stringify({ password: password.value, login: login.value }))
-    }
-  }
+async function signInWithDiscord() {
+  await supabase.auth.signInWithOAuth({
+    provider: 'discord',
+    options: {
+      redirectTo: 'http://localhost:5173/dashboard',
+    },
+  })
 }
 </script>
 
@@ -56,40 +25,27 @@ async function getUser() {
     <div class="absolute h-full w-full top-0 bg-overflow-200"></div>
     <div dir="ltr" class="absolute right-0 h-full bg-white p-10 w-150 rounded-s-lg">
       <h2 class="mb-10 font-bold text-2xl">Welcome back!</h2>
-      <p class="text-text mb-0">Discord name</p>
-      <input
-        class="focus:border-button-600 focus:outline-none py-1 px-2 w-full border-2 rounded-sm border-button-300"
-        type="text"
-        placeholder="Enter your Discord username"
-        v-model="login"
-      />
-      <p class="text-text mt-5">Password</p>
-      <input
-        class="focus:border-button-600 focus:outline-none py-1 px-2 w-full border-2 rounded-sm border-button-300"
-        type="password"
-        placeholder="Enter your password"
-        v-model="password"
-      />
+
       <button
-        class="cursor-pointer hover:bg-text text-white mt-5 text-center w-full bg-button-600 rounded-sm py-2"
-        @click="getUser"
+        class="flex justify-center gap-3 cursor-pointer box-border py-2 w-full bg-[#5865F2] text-white rounded-sm"
+        @click="signInWithDiscord"
       >
-        Sign in
+        Sign in with
+        <img
+          width="120"
+          src="https://cdn.prod.website-files.com/6257adef93867e50d84d30e2/66e3d718355f9c89eb0fd350_Logo.svg"
+          alt=""
+        />
       </button>
+
       <p class="text-text m-0 mt-5 mb-2 text-center w-full">Don't have an account?</p>
-      <button
-        class="cursor-pointer hover:bg-transparent hover:border-button-300 hover:border box-border py-2 w-full bg-button-300 rounded-sm"
-        @click="router.push('/signup')"
-      >
-        Become a member
-      </button>
-      <p class="text-text m-0 mt-5 mb-2 text-center w-full hidden">Now you can</p>
-      <button
-        class=" hidden flex justify-center gap-3 cursor-pointer  box-border py-2 w-full bg-[#5865F2] text-white rounded-sm"
-        @click="router.push('/signup')"
-      >
-        Sign in with <img width="120" src="https://cdn.prod.website-files.com/6257adef93867e50d84d30e2/66e3d718355f9c89eb0fd350_Logo.svg" alt="">
-      </button>
+      <RouterLink to="/signup">
+        <button
+          class="cursor-pointer hover:bg-transparent hover:border-button-300 hover:border box-border py-2 w-full bg-button-300 rounded-sm"
+        >
+          Become a member
+        </button>
+      </RouterLink>
     </div>
   </div>
   <div class="absolute bottom-4 right-4 flex justify-between">

@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
 
 // Discord logo hover animation
 const defaultFill = '#D4E2FF'
@@ -26,18 +23,20 @@ function hoverOut() {
   <div class="flex items-center justify-between my-4 mx-4">
     <img src="../../public/Logo.svg" alt="NEX Air" class="h-16" />
     <div class="flex justify-between">
-      <button
-        class="h-8 cursor-pointer hover:bg-text w-20 py-1.25 mx-2 bg-button-600 text-white rounded-sm"
-        @click="router.push('/signup')"
-      >
-        Join us
-      </button>
-      <button
-        class="h-8 cursor-pointer hover:bg-transparent hover:border-button-300 hover:border box-border w-20 mx-2 bg-button-300 rounded-sm"
-        @click="router.push('/login')"
-      >
-        Log in
-      </button>
+      <RouterLink to="/signup">
+        <button
+          class="hidden h-8 cursor-pointer hover:bg-text w-20 py-1.25 mx-2 bg-button-600 text-white rounded-sm"
+        >
+          Join us
+        </button>
+      </RouterLink>
+      <RouterLink to="/login">
+        <button
+          class="h-8 cursor-pointer hover:bg-transparent hover:border-button-300 hover:border box-border w-20 mx-2 bg-button-300 rounded-sm"
+        >
+          Log in
+        </button>
+      </RouterLink>
       <a href="https://discord.com">
         <svg
           @mouseleave="hoverOut"

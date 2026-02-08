@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import { useRouteStore } from '@/stores/routeStore'
-import { usePilotStore } from '@/stores/pilotStore'
 import { supabase } from '@/utilities/supabase'
 
 const routeStore = useRouteStore()
-const pilotStore = usePilotStore()
 const router = useRouter()
 
 async function registerFlight() {
@@ -13,10 +11,9 @@ async function registerFlight() {
     body: {
       flightId: routeStore.id,
       name: pilotStore.pilotName,
-    }
+    },
   })
   router.push('/dashboard')
-  
 }
 </script>
 
@@ -49,7 +46,7 @@ async function registerFlight() {
       <button
         class="cursor-pointer hover:bg-text text-white mt-5 text-center w-full bg-button-600 rounded-sm py-2"
         @click="registerFlight"
-        >
+      >
         Start flight
       </button>
       <button

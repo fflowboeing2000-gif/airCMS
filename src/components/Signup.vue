@@ -8,17 +8,7 @@ const router = useRouter()
 const login = ref('')
 const password = ref('')
 
-async function newUser() {
-  if (login.value.trim() != '' && password.value.trim() != '') {
-    await supabase.from('users').insert({ discord_name: login.value, password: password.value })
-
-    localStorage.removeItem('user')
-    localStorage.setItem('user', JSON.stringify({ password: password.value, login: login.value }))
-    router.push('/dashboard')
-  } else {
-    alert('Invalid password or login.')
-  }
-}
+async function newUser() {}
 </script>
 
 <template>
@@ -28,7 +18,7 @@ async function newUser() {
   >
     <div class="absolute h-full w-full top-0 bg-overflow-200"></div>
     <div dir="ltr" class="absolute right-0 h-full bg-white p-10 w-150 rounded-s-lg">
-      <h2 class="mb-10 font-bold text-2xl">Welcome in the Celestia!</h2>
+      <h2 class="mb-10 font-bold text-2xl">Welcome in the NEX Air</h2>
       <p class="text-text mb-0">Discord name</p>
       <input
         class="focus:border-button-600 focus:outline-none py-1 px-2 w-full border-2 rounded-sm border-button-300"

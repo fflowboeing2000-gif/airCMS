@@ -1,18 +1,19 @@
 <script setup lang="ts">
-import { usePilotStore } from '@/stores/pilotStore'
-import { useRouteStore } from '@/stores/routeStore'
 import { supabase } from '@/utilities/supabase'
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { getGreetingMessage } from '@/utilities/greetingMessage'
+import { useUserStore } from '@/stores/userStore'
 
-const pilotStore = usePilotStore()
-const routeStore = useRouteStore()
+const userStore = useUserStore()
 const routes: any = ref([])
 const activeRoutes = ref({})
 const router = useRouter()
+//const pilotName = ref("")
+//const balance = ref(0)
 
 onMounted(async () => {
+  /*
   if (localStorage.getItem('user') == null) {
     router.push('/login')
   } else {
@@ -34,17 +35,25 @@ onMounted(async () => {
       }
     }
   }
-  routes.value = (await supabase.from('flights').select()).data
+  */
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  userStore.user = user?.user_metadata
+
+  const balance = await supabase.from('balances').select('balance').single()
+
+  userStore.balance = balance.data?.balance
+
+  //routes.value = (await supabase.from('flights').select()).data
 })
 
-function logout() {
+async function logout() {
   localStorage.removeItem('user')
+  const { error } = await supabase.auth.signOut()
   router.push('/')
-}
-
-function setRoute(route: any) {
-  routeStore.setRoute(route)
-  router.push('/flight')
 }
 </script>
 
@@ -61,10 +70,11 @@ function setRoute(route: any) {
   <div class="ml:px-20 px-10">
     <div class="text-right">
       <h2 class="text-2xl">
-        {{ getGreetingMessage() }}<span class="text-button-600">{{ pilotStore.pilotName }}</span>
+        {{ getGreetingMessage()
+        }}<span class="text-button-600">{{ userStore.user.full_name }}</span>
       </h2>
       <p class="text-4xl">
-        $<span class="text-button-600">{{ pilotStore.balance }}</span>
+        $<span class="text-button-600">{{ userStore.balance }}</span>
       </p>
 
       <div class="grid grid-cols-2 grid-rows-3 text-center gap-2">
@@ -89,7 +99,7 @@ function setRoute(route: any) {
               <p>Flight #</p>
             </div>
             <div
-              @click="setRoute(flight)"
+              @click=""
               :key="flight.id"
               class="hover:bg-gray-200 cursor-pointer px-2 flex justify-between py-2 border-gray-300 border-t-2"
               v-for="flight in routes"

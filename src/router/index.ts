@@ -1,4 +1,5 @@
 import Dashboard from '@/components/Dashboard.vue'
+import Edge from '@/components/Edge.vue'
 import Flight from '@/components/Flight.vue'
 import Login from '@/components/Login.vue'
 import Signup from '@/components/Signup.vue'
@@ -13,6 +14,7 @@ const router = createRouter({
     { path: '/signup', component: Signup },
     { path: '/dashboard', component: Dashboard },
     { path: '/flight', component: Flight },
+    { path: '/supa', component: Edge },
   ],
 })
 
